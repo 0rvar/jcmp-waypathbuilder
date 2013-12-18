@@ -8,14 +8,6 @@ Use to:
 * Create spawn locations for your game mode
 * Record positions with ease
 
-## Installing
-```git clone``` the repository in the scripts folder of your server. 
-
-See the [JC-MP Server documentation](http://wiki.jc-mp.com/Server) for how to use scripts.
-
-## Upgrading
-```git pull``` in scripts/jcmp-waypathbuilder
-
 ## Usage
 **target** is the closest waypoint. It will be highlighted in green.
 * ```/wpb add``` or ```<NumPadPlus>```: Add a waypoint
@@ -29,6 +21,10 @@ See the [JC-MP Server documentation](http://wiki.jc-mp.com/Server) for how to us
 Files are saved as &lt;timestamp&gt;.json in the Waypath Builder script folder. 
 If a prefix is supplied, the file is saved as &lt;prefix&gt;_&lt;timestamp&gt;.json
 
+## Installing
+```git clone``` the repository in the scripts folder of your server. See the [JC-MP Server documentation](http://wiki.jc-mp.com/Server) for how to use scripts.
+
+Use ```git pull``` in scripts/jcmp-waypathbuilder to upgrade.
 
 ## Contributing
 * All improvements are very welcome
