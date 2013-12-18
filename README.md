@@ -23,9 +23,16 @@ Files are saved as &lt;timestamp&gt;.json in the Waypath Builder script folder.
 If a prefix is supplied, the file is saved as &lt;prefix&gt;_&lt;timestamp&gt;.json
 
 ## Installing
-```git clone``` the repository in the scripts folder of your server. See the [JC-MP Server documentation](http://wiki.jc-mp.com/Server) for how to use scripts.
+```git clone``` the repository in the scripts folder of your server. Use only on a localhost private server, as there is no access check for saving waypoints on the server. 
+
+See the [JC-MP Server documentation](http://wiki.jc-mp.com/Server) for how to use scripts. 
 
 Use ```git pull``` in scripts/jcmp-waypathbuilder to upgrade.
+
+## TODO
+* Select target waypoint by aiming
+* Option to export as a lua table with Vector3() points
+* Better display of waypoints
 
 ## Contributing
 * All improvements are very welcome
