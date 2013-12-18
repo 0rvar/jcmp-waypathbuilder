@@ -1,4 +1,4 @@
-# JC2-MP Waypath Builder v0.0.2
+# JC2-MP Waypath Builder v0.0.3
 ![Screenshot](https://raw.github.com/awestroke/jcmp-waypathbuilder/master/screenshot.png "Screenshot of Waypath Builder in action")
 
 A Just Cause 2: MP development tool for creating and exporting series of waypoints. 
