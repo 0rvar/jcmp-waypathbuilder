@@ -7,6 +7,7 @@ function WPB:__init()
   Network:Subscribe("Command", self, self.ServerCommandHandler)
 end
 
+-- TODO: Prettier display (perhaps display distance?)
 function WPB:Render()
   local angle = Angle( Camera:GetAngle().yaw, 0, math.pi ) * Angle( math.pi, 0, 0 )
 
@@ -38,7 +39,7 @@ function WPB:Render()
 end
 
 -- Returns the index of the closest waypoint
--- Would like to use aiming, but couldn't figure out the Angle class
+-- TODO: Would like to use aiming, but couldn't figure out the Angle class
 function WPB:GetTargetIndex()
   local minDistance = 1000
   local index = -1

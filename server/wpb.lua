@@ -8,6 +8,7 @@ function WPB:__init()
 end
 
 -- Export as JSON
+-- TODO: Add options to export as lua
 function WPB:SaveWaypoints(args)
   local filename = os.date("%Y-%m-%d_%H.%M.%S.json")
   if self.prefix then
@@ -31,6 +32,7 @@ function WPB:SaveWaypoints(args)
   Chat:Broadcast("Saved waypoints as: " .. filename, Color(220, 255, 220))
 end
 
+-- TODO: Remove this function, send prefix with same network packet as save
 function WPB:SetPrefix(prefix)
   self.prefix = prefix
 end
