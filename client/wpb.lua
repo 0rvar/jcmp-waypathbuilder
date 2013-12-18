@@ -77,14 +77,19 @@ function WPB:DrawToMinimap(pos2d, isTarget)
   Render:FillArea(pos2d + Vector2(2 , 4) , Vector2(2 , 1) , color1)
 end
 
--- Returns the index of the closest waypoint
--- TODO: Would like to use aiming, but couldn't figure out the Angle class
+-- Returns the index of the waypoint closest to the crosshair
 function WPB:GetTargetIndex()
   local minDistance = 1000
   local index = -1
   local player_pos = LocalPlayer:GetPosition()
+  local camera_angle = Camera:GetAngle()
+
+  local angle, crosshair, d, dist
   for i,pos in ipairs(self.waypoints) do
-    local d = player_pos:Distance(pos)
+    dist = player_pos:Distance(pos)
+    angle = camera_angle * Vector3(0, 0, -1)
+    crosshair = player_pos + angle * dist
+    d = crosshair:Distance(pos)
     if d < minDistance then
       minDistance = d
       index = i

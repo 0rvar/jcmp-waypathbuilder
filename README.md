@@ -34,6 +34,9 @@ Use ```git pull``` in scripts/jcmp-waypathbuilder to upgrade.
 If you encounter a bug, please submit an issue with as much information as you can provide.
 
 ## Changelog
+**0.0.3**
+* The target waypoint is now selected by aiming
+
 **0.0.2**
 * Added waypoints to minimap
 * Added option to export as lua
@@ -42,7 +45,6 @@ If you encounter a bug, please submit an issue with as much information as you c
 * Initial commit
 
 ## TODO
-* Select target waypoint by aiming
 * Better display of waypoints
 * Load waypoints with ```/wpb load <partialFileName>```
 
