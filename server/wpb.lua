@@ -6,7 +6,6 @@ function WPB:__init()
 end
 
 -- Export as JSON
--- TODO: Add options to export as lua
 function WPB:SaveWaypoints(args)
   if #args < 2 then
     return
@@ -53,11 +52,6 @@ function WPB:SaveWaypoints(args)
   file:close()
 
   Chat:Broadcast("[WPB] Saved waypoints as: " .. filename, sharedSettings.chatColor)
-end
-
--- TODO: Remove this function, send prefix with same network packet as save
-function WPB:SetPrefix(prefix)
-  self.prefix = prefix
 end
 
 function WPB:ChatCommand(args)

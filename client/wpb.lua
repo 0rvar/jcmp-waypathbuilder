@@ -2,20 +2,21 @@ class('WPB')
 
 function WPB:__init()
   self.waypoints = {}
-  Events:Subscribe("KeyUp", self, self.KeyHandler)
+  Events:Subscribe("KeyDown", self, self.KeyHandler)
   Events:Subscribe("Render", self, self.Render)
   Network:Subscribe("Command", self, self.ServerCommandHandler)
 end
 
--- TODO: Prettier display (perhaps display distance?)
+-- Render waypoints
 function WPB:Render()
+  -- TODO: Prettier display (perhaps display distance?)
   local angle = Angle( Camera:GetAngle().yaw, 0, math.pi ) * Angle( math.pi, 0, 0 )
 
   local origin = Vector3(0,0,0)
 
   local targetIndex = self:GetTargetIndex()
 
-  local circleColor, success, pos3d, pos2d
+  local circleColor, success, pos3d, pos2d, t
   for i,pos in ipairs(self.waypoints) do
     if i == targetIndex then
       circleColor = settings.circleColorTarget
@@ -23,7 +24,7 @@ function WPB:Render()
       circleColor = settings.circleColorDefault
     end
 
-    local t = Transform3()
+    t = Transform3()
       t:Translate(pos)
       t:Rotate( angle )
 
@@ -33,14 +34,13 @@ function WPB:Render()
     Render:ResetTransform()
 
     -- Minimap
-    pos3d , success = Render:WorldToMinimap(pos)
-    pos2d = Vector2(math.floor(pos3d.x + 0.5) , math.floor(pos3d.y + 0.5))
-    self:DrawToMinimap(pos2d, i == targetIndex)
+    self:DrawToMinimap(pos, i == targetIndex)
   end
 end
 
--- Stolen from JC2-MP-Racing
-function WPB:DrawToMinimap(pos2d, isTarget)
+-- Draw a marker on the minimap. 
+-- Partially stolen from JC2-MP-Racing
+function WPB:DrawToMinimap(pos, isTarget)
   local color1, color2
   if isTarget then
     color1 = settings.minimapTargetCPColor1
@@ -49,6 +49,12 @@ function WPB:DrawToMinimap(pos2d, isTarget)
     color1 = settings.minimapDefaultCPColor1
     color2 = settings.minimapDefaultCPColor2
   end
+
+  local pos3d , success = Render:WorldToMinimap(pos)
+  if not success then
+    return
+  end
+  local pos2d = Vector2(math.floor(pos3d.x + 0.5) , math.floor(pos3d.y + 0.5))
 
   Render:FillArea(pos2d + Vector2(-4 , -4) , Vector2(2 , 2) , color2)
   Render:FillArea(pos2d + Vector2(3 , -4) , Vector2(2 , 2) , color2)
@@ -87,8 +93,8 @@ function WPB:GetTargetIndex()
   local angle, crosshair, d, dist
   for i,pos in ipairs(self.waypoints) do
     dist = player_pos:Distance(pos)
-    angle = camera_angle * Vector3(0, 0, -1)
-    crosshair = player_pos + angle * dist
+    angle = camera_angle * Vector3(0, 0, -1) -- Convert camera angle to Vector3 format
+    crosshair = player_pos + angle * dist -- Crosshair at same distance as point
     d = crosshair:Distance(pos)
     if d < minDistance then
       minDistance = d
@@ -143,13 +149,13 @@ function WPB:ClearWaypoints()
 end
 
 function WPB:KeyHandler(args)
-  if args.key == 107 then
+  if args.key == 107 then -- Numpad Plus
     self:AddWaypoint()
-  elseif args.key == 109 then
+  elseif args.key == 109 then -- Numpad Minus
     self:RemoveWaypoint()
-  elseif args.key == 106 then
+  elseif args.key == 106 then -- Numpad Mult
     self:NudgeWaypoint(-1)
-  elseif args.key == 111 then
+  elseif args.key == 111 then -- Numpad Divide
     self:NudgeWaypoint(1)
   end
 end
@@ -181,14 +187,14 @@ function WPB:ServerCommandHandler(cmd_args)
       end
     end
   else
-    self:Print("Available commands: add, del, clear, save [prefix], move <+|-|number>")
+    self:Print("Available commands: add, del, clear, save, savelua [prefix], move <+|-|number>")
   end
 end
 
+-- Send waypoints to server to save as file
 function WPB:SaveWaypoints(filetype, prefix)
   Network:Send("SaveWaypoints", {filetype, self.waypoints, prefix})
 end
-
 
 function WPB:Print(arg)
   Chat:Print("[WPB] "..tostring(arg), sharedSettings.chatColor)
