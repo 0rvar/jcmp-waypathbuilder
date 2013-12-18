@@ -12,29 +12,69 @@ function WPB:Render()
   local angle = Angle( Camera:GetAngle().yaw, 0, math.pi ) * Angle( math.pi, 0, 0 )
 
   local origin = Vector3(0,0,0)
-  local circleRadius = 2
-  local circleNormalColor = Color(200, 200, 200)
-  local circleHoverColor = Color(0, 255, 0)
-
-  local textPos = Vector3(1, -3, 0)
-  local textSize = TextSize.Large
-  local textScale = 1/15
-  local textColor = Color(255, 255, 255)
 
   local targetIndex = self:GetTargetIndex()
 
+  local circleColor, success, pos3d, pos2d
   for i,pos in ipairs(self.waypoints) do
-    local circleColor = circleNormalColor
     if i == targetIndex then
-      circleColor = circleHoverColor
+      circleColor = settings.circleColorTarget
+    else
+      circleColor = settings.circleColorDefault
     end
+
     local t = Transform3()
       t:Translate(pos)
       t:Rotate( angle )
+
     Render:SetTransform(t)
-    Render:DrawCircle(origin, circleRadius, circleColor)
-    Render:DrawText(textPos, tostring(i), textColor, textSize, textScale)
+    Render:DrawCircle(origin, settings.circleRadius, circleColor)
+    Render:DrawText(settings.textPos, tostring(i), settings.textColor, settings.textSize, settings.textScale)
+    Render:ResetTransform()
+
+    -- Minimap
+    pos3d , success = Render:WorldToMinimap(pos)
+    pos2d = Vector2(math.floor(pos3d.x + 0.5) , math.floor(pos3d.y + 0.5))
+    self:DrawToMinimap(pos2d, i == targetIndex)
   end
+end
+
+-- Stolen from JC2-MP-Racing
+function WPB:DrawToMinimap(pos2d, isTarget)
+  local color1, color2
+  if isTarget then
+    color1 = settings.minimapTargetCPColor1
+    color2 = settings.minimapTargetCPColor2
+  else
+    color1 = settings.minimapDefaultCPColor1
+    color2 = settings.minimapDefaultCPColor2
+  end
+
+  Render:FillArea(pos2d + Vector2(-4 , -4) , Vector2(2 , 2) , color2)
+  Render:FillArea(pos2d + Vector2(3 , -4) , Vector2(2 , 2) , color2)
+  Render:FillArea(pos2d + Vector2(3 , 3) , Vector2(2 , 2) , color2)
+  Render:FillArea(pos2d + Vector2(-4 , 3) , Vector2(2 , 2) , color2)
+  
+  Render:FillArea(pos2d + Vector2(-5 , -2) , Vector2(2 , 5) , color2)
+  Render:FillArea(pos2d + Vector2(4 , -2) , Vector2(2 , 5) , color2)
+  Render:FillArea(pos2d + Vector2(-2 , -5) , Vector2(5 , 2) , color2)
+  Render:FillArea(pos2d + Vector2(-2 , 4) , Vector2(5 , 2) , color2)
+  
+  
+  Render:FillArea(pos2d + Vector2(-5 , -1) , Vector2(1 , 3) , color1)
+  Render:FillArea(pos2d + Vector2(5 , -1) , Vector2(1 , 3) , color1)
+  Render:FillArea(pos2d + Vector2(-1 , -5) , Vector2(3 , 1) , color1)
+  Render:FillArea(pos2d + Vector2(-1 , 5) , Vector2(3 , 1) , color1)
+  
+  Render:FillArea(pos2d + Vector2(-4 , -3) , Vector2(1 , 2) , color1)
+  Render:FillArea(pos2d + Vector2(4 , -3) , Vector2(1 , 2) , color1)
+  Render:FillArea(pos2d + Vector2(-4 , 2) , Vector2(1 , 2) , color1)
+  Render:FillArea(pos2d + Vector2(4 , 2) , Vector2(1 , 2) , color1)
+  
+  Render:FillArea(pos2d + Vector2(-3 , -4) , Vector2(2 , 1) , color1)
+  Render:FillArea(pos2d + Vector2(2 , -4) , Vector2(2 , 1) , color1)
+  Render:FillArea(pos2d + Vector2(-3 , 4) , Vector2(2 , 1) , color1)
+  Render:FillArea(pos2d + Vector2(2 , 4) , Vector2(2 , 1) , color1)
 end
 
 -- Returns the index of the closest waypoint
@@ -139,13 +179,12 @@ function WPB:ServerCommandHandler(cmd_args)
 end
 
 function WPB:SaveWaypoints(prefix)
-  Network:Send("SetPrefix", prefix)
-  Network:Send("SaveWaypoints", self.waypoints)
+  Network:Send("SaveWaypoints", {prefix, self.waypoints})
 end
 
 
 function WPB:Print(arg)
-  Chat:Print("[WPB] "..tostring(arg), Color(220, 255, 220))
+  Chat:Print("[WPB] "..tostring(arg), sharedSettings.chatColor)
 end
  
 wpb = WPB()

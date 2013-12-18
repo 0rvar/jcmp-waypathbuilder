@@ -1,22 +1,26 @@
 class('WPB')
 
 function WPB:__init()
-  self.prefix = nil
   Network:Subscribe("SaveWaypoints", self, self.SaveWaypoints)
-  Network:Subscribe("SetPrefix", self, self.SetPrefix)
   Events:Subscribe("PlayerChat", self, self.ChatCommand)
 end
 
 -- Export as JSON
 -- TODO: Add options to export as lua
 function WPB:SaveWaypoints(args)
+  if #args < 2 then
+    return
+  end
+  local prefix = args[1]
+  local waypoints = args[2]
+
   local filename = os.date("%Y-%m-%d_%H.%M.%S.json")
-  if self.prefix then
-    filename = self.prefix .. "_" .. filename
+  if prefix ~= nil then
+    filename = prefix .. "_" .. filename
   end
   
   local str = '{\n  "Waypoints": ['
-  for i,wp in ipairs(args) do
+  for i,wp in ipairs(waypoints) do
     if i > 1 then
       str = str .. ","
     end
@@ -29,7 +33,7 @@ function WPB:SaveWaypoints(args)
   file:write(str)
   file:close()
 
-  Chat:Broadcast("Saved waypoints as: " .. filename, Color(220, 255, 220))
+  Chat:Broadcast("[WPB] Saved waypoints as: " .. filename, sharedSettings.chatColor)
 end
 
 -- TODO: Remove this function, send prefix with same network packet as save
