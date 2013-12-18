@@ -181,7 +181,7 @@ function WPB:ServerCommandHandler(cmd_args)
 end
 
 function WPB:SaveWaypoints(filetype, prefix)
-  Network:Send("SaveWaypoints", {filetype, prefix, self.waypoints})
+  Network:Send("SaveWaypoints", {filetype, self.waypoints, prefix})
 end
 
 

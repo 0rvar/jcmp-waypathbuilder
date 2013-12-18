@@ -8,12 +8,12 @@ end
 -- Export as JSON
 -- TODO: Add options to export as lua
 function WPB:SaveWaypoints(args)
-  if #args < 3 then
+  if #args < 2 then
     return
   end
   local filetype = args[1]
-  local prefix = args[2]
-  local waypoints = args[3]
+  local prefix = args[3]
+  local waypoints = args[2]
 
   local filename = os.date("%Y-%m-%d_%H.%M.%S.")
   if filetype == "lua" then
