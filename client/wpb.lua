@@ -22,7 +22,6 @@ function WPB:Render()
   local textColor = Color(255, 255, 255)
 
   local targetIndex = self:GetTargetIndex()
-  --local targetIndex = -1
 
   for i,pos in ipairs(self.waypoints) do
     local circleColor = circleNormalColor
