@@ -10,7 +10,7 @@ Use to:
 * Find positions for other purposes
 
 ## Usage
-**target** is the closest waypoint. It will be highlighted in green.
+**target** is the waypoint closest to your crosshair. It will be highlighted in green.
 * ```/wpb add``` or ```<NumPadPlus>```: Add a waypoint
 * ```/wpb del``` or ```<NumPadMinus>```: Remove target
 * ```/wpb save [prefix]``` or ```/wpb savejson [prefix]```: Save waypoints as json
@@ -45,8 +45,11 @@ If you encounter a bug, please submit an issue with as much information as you c
 * Initial commit
 
 ## TODO
+* Named waypoints. 
 * Better display of waypoints
 * Load waypoints with ```/wpb load <partialFileName>```
+* Waypoint cache at server to avoid data loss on client crash
+* Synchronized waypoints between all players. Good/bad idea?
 
 ## Contributing
 * All improvements are very welcome
