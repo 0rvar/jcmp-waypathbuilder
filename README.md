@@ -30,6 +30,9 @@ See the [JC-MP Server documentation](http://wiki.jc-mp.com/Server) for how to us
 
 Use ```git pull``` in scripts/jcmp-waypathbuilder to upgrade.
 
+## Reporting bugs
+If you encounter a bug, please submit an issue with as much information as you can provide.
+
 ## Changelog
 **0.0.2**
 * Added waypoints to minimap
