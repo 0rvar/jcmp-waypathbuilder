@@ -151,8 +151,10 @@ end
 
 function WPB:ServerCommandHandler(cmd_args)
   local cmd = cmd_args[1]
-  if cmd == "save" then
-    self:SaveWaypoints(cmd_args[2])
+  if cmd == "save" or cmd == "savejson" then
+    self:SaveWaypoints("json", cmd_args[2])
+  elseif cmd == "savelua" then
+    self:SaveWaypoints("lua", cmd_args[2])
   elseif cmd == "clear" then
     self:ClearWaypoints()
   elseif cmd == "add" then
@@ -178,8 +180,8 @@ function WPB:ServerCommandHandler(cmd_args)
   end
 end
 
-function WPB:SaveWaypoints(prefix)
-  Network:Send("SaveWaypoints", {prefix, self.waypoints})
+function WPB:SaveWaypoints(filetype, prefix)
+  Network:Send("SaveWaypoints", {filetype, prefix, self.waypoints})
 end
 
 

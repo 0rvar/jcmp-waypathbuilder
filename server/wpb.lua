@@ -8,26 +8,45 @@ end
 -- Export as JSON
 -- TODO: Add options to export as lua
 function WPB:SaveWaypoints(args)
-  if #args < 2 then
+  if #args < 3 then
     return
   end
-  local prefix = args[1]
-  local waypoints = args[2]
+  local filetype = args[1]
+  local prefix = args[2]
+  local waypoints = args[3]
 
-  local filename = os.date("%Y-%m-%d_%H.%M.%S.json")
+  local filename = os.date("%Y-%m-%d_%H.%M.%S.")
+  if filetype == "lua" then
+    filename = filename .. "export."
+  end
+  filename = filename .. filetype
   if prefix ~= nil then
     filename = prefix .. "_" .. filename
   end
+
+  local str = ""
   
-  local str = '{\n  "Waypoints": ['
-  for i,wp in ipairs(waypoints) do
-    if i > 1 then
-      str = str .. ","
+  if filetype == "json" then
+    str = '{\n  "Waypoints": ['
+    for i,wp in ipairs(waypoints) do
+      if i > 1 then
+        str = str .. ","
+      end
+      str = str .. "\n    "
+      str = str .. string.format('{"x":%f,"y":%f,"z":%f}', wp.x, wp.y, wp.z)
     end
-    str = str .. "\n    "
-    str = str .. string.format('{"x":%f,"y":%f,"z":%f}', wp.x, wp.y, wp.z)
+    str = str .. '\n  ]\n}'
+  elseif filetype == "lua" then
+    str = "local waypoints = {"
+    for i,wp in ipairs(waypoints) do
+      if i > 1 then
+        str = str .. ","
+      end
+      str = str .. "\n  "
+      str = str .. string.format('Vector3(%f, %f, %f)', wp.x, wp.y, wp.z)
+    end
+    str = str .. '\n}'
   end
-  str = str .. '\n  ]\n}'
 
   local file = io.open(filename, "w+")
   file:write(str)
