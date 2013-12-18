@@ -6,7 +6,8 @@ A Just Cause 2: MP development tool for creating and exporting series of waypoin
 Use to:
 * Create racing tracks
 * Create spawn locations for your game mode
-* Record positions with ease
+* Create teleport positions
+* Find positions for other purposes
 
 ## Usage
 **target** is the closest waypoint. It will be highlighted in green.
