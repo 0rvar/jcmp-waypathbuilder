@@ -1,2 +1,2 @@
-*.json
-*.export.lua
+export/*.json
+export/*.lua
