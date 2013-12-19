@@ -21,7 +21,7 @@ Use to:
 * ```/wpbs reorder +``` or ```<NumPadMultiply>```: Reorder target (+1)
 * ```/wpbs reorder -``` or ```<NumPadDivide>```: Reorder target (-1)
 * ```/wpbs reorder <n>```: Reorder target (=n)
-Files are saved in &lt;script_folder&gt>/exports/ with a timestamped filename.
+Files are saved in exports/ with a timestamped filename.
 If a prefix is supplied, the filename is prefixed with it, making it easier to browse through your saves.
 
 ### Named waypoints
