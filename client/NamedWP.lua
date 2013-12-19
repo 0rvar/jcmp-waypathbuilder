@@ -25,7 +25,7 @@ function NamedWP:Render()
 end
 
 function NamedWP:Add(name)
-  local pos = LocalPlayer:GetPosition() + Vector3(0, 1, 0)
+  local pos = LocalPlayer:GetPosition() + Vector3(0, 0.5, 0)
   local angle = LocalPlayer:GetAngle()
   local wp = {position = pos, angle = angle}
   Network:Send("NamedWPAdd", {name, wp})

@@ -55,7 +55,7 @@ function WPSet:GetTargetIndex()
 end
 
 function WPSet:Add()
-  local pos = LocalPlayer:GetPosition()
+  local pos = LocalPlayer:GetPosition() + Vector3(0, 0.5, 0)
   local angle = LocalPlayer:GetAngle()
   local wp = {position = pos, angle = angle}
   table.insert(self.waypoints, wp)
