@@ -31,6 +31,7 @@ You can add, remove and teleport to named waypoints. They are automatically expo
 * ```/wpb update <name>```: Update named waypoint
 * ```/wpb remove <name>```: Remove named waypoint
 * ```/wpb tp <name>```: Teleport to named waypoint
+
 The named waypoints can be found in export/named_waypoints.lua (and .json)
 
 ## Installing
