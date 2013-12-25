@@ -57,7 +57,7 @@ function WPB:Print(arg)
 end
 
 function WPB:ModulesLoad()
-  Events:FireRegisteredEvent( "HelpAddItem", {
+  Events:Fire( "HelpAddItem", {
     name = "Waypath Builder",
     text = [[
 You can easily build sets of waypoints:
@@ -83,7 +83,7 @@ The named waypoints can be found in export/named_waypoints.lua.
 end
 
 function WPB:ModuleUnload()
-  Events:FireRegisteredEvent( "HelpRemoveItem",{
+  Events:Fire( "HelpRemoveItem",{
     name = "Waypath Builder"
   })
 end
